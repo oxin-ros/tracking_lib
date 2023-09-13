@@ -1,10 +1,10 @@
 tracking: {
-  local_frame_id: "velodyne",
-  global_frame_id: "world",
+  local_frame_id: "base_link",
+  global_frame_id: "map",
   # Query Ros TF timeout in ms. ros::Duration time.
   # type: int
   # default: 10
-  tf_timeout_ms: 1,
+  tf_timeout_ms: 10,
 
   # segmented point clouds directly from segment node
   sub_pcs_segmented_topic: "/segment/clouds_segmented",

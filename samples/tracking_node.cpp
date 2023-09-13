@@ -51,7 +51,7 @@ std::unique_ptr<autosense::tracking::BaseTrackingWorker> tracking_worker_ =
 void OnSegmentClouds(
     const autosense_msgs::PointCloud2ArrayConstPtr &segments_msg) {
     const double kTimeStamp = segments_msg->header.stamp.toSec();
-    ROS_INFO("Clusters size: %d at %lf.", segments_msg->clouds.size(),
+    ROS_INFO("Clusters size: %d at %lf.", static_cast<int>(segments_msg->clouds.size()),
              kTimeStamp);
 
     std_msgs::Header header;

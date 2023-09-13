@@ -64,25 +64,23 @@ class HmTrackingWorker : public BaseTrackingWorker {
      * @brief get object trackers from current tracking system
      * @return object tracks maintained in tracker
      */
-    virtual inline const std::vector<ObjectTrackerPtr> &getTrackers() const {
+    inline const std::vector<ObjectTrackerPtr> &getTrackers() const override{
         return multi_object_tracker_->getTrackers();
     }
 
-    virtual inline const std::vector<IdType> &getUnassignedTrackers() const {
+    inline const std::vector<IdType> &getUnassignedTrackers() const override {
         return multi_object_tracker_->getUnassignedTrackers();
     }
 
-    virtual inline const std::vector<IdType> &getLostTrackers() const {
+    inline const std::vector<IdType> &getLostTrackers() const override {
         return multi_object_tracker_->getLostTrackers();
     }
 
-    virtual inline const std::map<IdType, Trajectory> &collectTrajectories()
-        const {
+    inline const std::map<IdType, Trajectory> &collectTrajectories() const override {
         return trajectory_poses_;
     }
 
-    virtual inline const std::vector<ObjectPtr> &collectTrackingObjectsInWorld()
-        const {
+    inline const std::vector<ObjectPtr> &collectTrackingObjectsInWorld() const override {
         return tracking_objects_;
     }
 

@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <launch>
+    <!-- Use simulation time -->
+    <param name="/use_sim_time" value="true"/>
+
+    <!-- Run a cropbox filter to filter out points outisde of detection region. -->
+    <node pkg="nodelet" type="nodelet" name="crop_box"
+          args="standalone pcl/CropBox" output="screen" respawn="true">
+        <rosparam>
+            min_x: -2.0
+            max_x: 10.0
+
+            min_y: -3.0
+            max_y: 3.0
+
+            min_z: -2.0
+            max_z: 3.0
+
+            # Convert the point cloud to the base footprint frame before filtering
+            input_frame: base_footprint
+            # Output the point cloud to the base footprint for the remaining Nodelet filters
+            output_frame: base_footprint
+        </rosparam>
+        <remap from="~input"  to="/livox/lidar"/>
+    </node>
+
+    <!-- Run a VoxelGrid filter to clean NaNs and downsample the data. -->
+    <node pkg="nodelet" type="nodelet" name="voxel_grid"
+          args="standalone pcl/VoxelGrid" output="screen" respawn="true">
+        <rosparam file="$(find obstacle_detection)/config/voxel_grid.yaml" command="load" />
+        <remap from="~input"  to="/crop_box/output" />
+    </node>
+
+    <!-- Remove self detections -->
+    <node pkg="nodelet" type="nodelet" name="self_crop"
+          args="standalone pcl/CropBox" output="screen" respawn="true">
+        <rosparam file="$(find obstacle_detection)/config/self_crop.yaml" command="load" />
+        <remap from="~input"  to="/voxel_grid/output"/>
+    </node>
+
     <!-- Launch detection_node -->
     <node name="detection_node" pkg="tracking_lib" type="tracking_lib_detection_node" output="screen">
         <rosparam command="load" file="$(find tracking_lib)/config/detection.yaml"/>

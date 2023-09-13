@@ -60,11 +60,9 @@ class BaseTrackingWorker {
 
     virtual inline const std::vector<IdType> &getLostTrackers() const = 0;
 
-    virtual inline const std::map<IdType, Trajectory> &collectTrajectories()
-        const = 0;
+    virtual inline const std::map<IdType, Trajectory> &collectTrajectories() const = 0;
 
-    virtual inline const std::vector<ObjectPtr> &collectTrackingObjectsInWorld()
-        const = 0;
+    virtual inline const std::vector<ObjectPtr> &collectTrackingObjectsInWorld() const = 0;
 
     virtual std::vector<FixedTrajectory> collectFixedTrajectories() = 0;
 
